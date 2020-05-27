@@ -16,9 +16,11 @@
     <body>
         <main>
             <div id= "loginBox">
-                <input name="username" type="text" minlength="8" placeholder="Username" required>
-                <input name="password" type="password"  placeholder="Password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$">
-                <input type= "submit" class="button" value="Login" required>
+                <form>
+                    <input name="username" type="text" minlength="3" placeholder="Username" required>
+                    <input name="password" type="password"  placeholder="Password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$">
+                    <input type= "submit" class="button" value="Login" required>
+                </form>
             </div>
         </main>
     </body>
