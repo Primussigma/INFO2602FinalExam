@@ -23,7 +23,7 @@ def create_app():
   app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
   app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
   app.config['SECRET_KEY'] = "MYSECRET"
-#   app.config['JWT_EXPIRATION_DELTA'] = timedelta(days = 7) # uncomment if using flsk jwt
+  app.config['JWT_EXPIRATION_DELTA'] = timedelta(days = 7) # uncomment if using flsk jwt
   CORS(app)
 #   login_manager.init_app(app) # uncomment if using flask login
   db.init_app(app)
