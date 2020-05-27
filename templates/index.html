@@ -26,26 +26,36 @@
         </main>
         <script>
             //code from lab 3
-            async function postData(url, data){
-            try{
-                let response = await fetch(
-                    url, 
-                    {
-                        method: 'POST',
-                        body: JSON.stringify(data),//convert data to JSON string
-                        headers: { 'Content-Type':'application/json' }// JSON data
-                    },
-                    );//1. Send http request and get response
-     
-                    let result = await response.text();//2. Get message from response
-                    console.log(result);//3. Do something with the message
-   
+            function toast(message){
+                M.toast({html: message});
+            }
+            async function sendRequest(url, method, data){
+                try{
+                //retrieve token from localStorage
+                let token = window.localStorage.getItem('access_token');
+
+                let options = {//options passed to fetch function
+                    method: method,
+                    headers: { 
+                    'Content-Type' : 'application/json',
+                    'Authorization' : `JWT ${token}`//send token in request
+                    }
+                };
+
+                if(data)//data will be given for PUT & POST requests
+                options.body = JSON.stringify(data);//convert data to JSON string
+
+                let response = await fetch(url, options);
+                
+                let result = await response.json();//Get json data from response
+                return result;//return the result
+
                 }catch(error){
-                    console.log(error);//catch and log any errors
+                    return error;//catch and log any errors
                 }
             }
             //the Event object is passed to any event handler called via an event attribute eg onclick, onsubmit etc
-            function submit(event){
+            async function submit(event){
                 event.preventDefault();//prevents page redirection
      
                 //event target returns the element on which the event is fired upon ie event.target === myForm
@@ -57,14 +67,21 @@
                     username: myform['username'].value,
                     password: myform['password'].value,
                 }
-                //send data to an api endpoint expecting the data
-                serverlogin = server + "\\auth"
-                postData(server, data);
                 myForm.reset();//clears the fields of the form
+                //send data to an api endpoint expecting the data
+                let result = await sendRequest(`${server}/auth`, 'POST', data);
+
+                if('error' in result){
+                    toast("Login Failed: "+result['error']);//show error message
+                }else{
+                    toast("Logged Successful");
+                    window.location.href= 'index.html';//redirect the page
+                }
             }
 
             //attach the submit function to the submit event of myForm    
             document.forms['myForm'].addEventListener('submit', submit);
+            
         </script>
     </body>
 </html>
