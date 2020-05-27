@@ -7,6 +7,8 @@ from sqlalchemy.exc import IntegrityError
 from datetime import timedelta 
 
 from models import db, User, UserReact, Post #add application models
+import initDB
+initDB()
 
 ''' Begin boilerplate code '''
 
@@ -55,7 +57,7 @@ jwt = JWT(app, authenticate, identity)
 def index():
   return render_template('index.html')
 
-@app.route('/app')
+@app.route('/app', methods=["GET"])
 @jwt_required
 def client_app():
   return app.send_static_file('app.html')
