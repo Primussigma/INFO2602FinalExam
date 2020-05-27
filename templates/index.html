@@ -75,6 +75,7 @@
                     toast("Login Failed: "+result['error']);//show error message
                 }else{
                     toast("Logged Successful");
+                    window.localStorage.setItem('access_token', result['access_token']);//save token
                     window.location.href= `${server}/app`;//redirect the page
                 }
             }
