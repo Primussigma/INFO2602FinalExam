@@ -6,25 +6,65 @@
     <title>Login</title>
     <style>
         #loginBox{
-
+            
         }
         .button{
 
         }
     </style>
+    <script src="server.js"></script>
     </head>
     <body>
         <main>
             <div id= "loginBox">
-                <form>
+                <form id="myForm">
                     <input name="username" type="text" minlength="3" placeholder="Username" required>
-                    <input name="password" type="password"  placeholder="Password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$">
+                    <input name="password" type="password" minlegth="3"  placeholder="Password" required >
                     <input type= "submit" class="button" value="Login" required>
                 </form>
             </div>
         </main>
         <script>
-            
+            //code from lab 3
+            async function postData(url, data){
+            try{
+                let response = await fetch(
+                    url, 
+                    {
+                        method: 'POST',
+                        body: JSON.stringify(data),//convert data to JSON string
+                        headers: { 'Content-Type':'application/json' }// JSON data
+                    },
+                    );//1. Send http request and get response
+     
+                    let result = await response.text();//2. Get message from response
+                    console.log(result);//3. Do something with the message
+   
+                }catch(error){
+                    console.log(error);//catch and log any errors
+                }
+            }
+            //the Event object is passed to any event handler called via an event attribute eg onclick, onsubmit etc
+            function submit(event){
+                event.preventDefault();//prevents page redirection
+     
+                //event target returns the element on which the event is fired upon ie event.target === myForm
+
+                //get data from form using elements property
+                let myform = event.target.elements;
+
+                let data = {
+                    username: myform['username'].value,
+                    password: myform['password'].value,
+                }
+                //send data to an api endpoint expecting the data
+                serverlogin = server + "\\auth"
+                postData(server, data);
+                myForm.reset();//clears the fields of the form
+            }
+
+            //attach the submit function to the submit event of myForm    
+            document.forms['myForm'].addEventListener('submit', submit);
         </script>
     </body>
 </html>

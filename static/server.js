@@ -1,1 +1,1 @@
-const server = "https://info2602ps--snickdx.repl.co";
+const server = "https://safe-stream-09432.herokuapp.com/";
