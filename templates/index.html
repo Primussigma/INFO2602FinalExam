@@ -75,13 +75,13 @@
                     toast("Login Failed: "+result['error']);//show error message
                 }else{
                     toast("Logged Successful");
-                    window.location.href= 'index.html';//redirect the page
+                    window.location.href= `${server}/app`;//redirect the page
                 }
             }
 
             //attach the submit function to the submit event of myForm    
             document.forms['myForm'].addEventListener('submit', submit);
-            
+
         </script>
     </body>
 </html>
