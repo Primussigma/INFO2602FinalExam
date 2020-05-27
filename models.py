@@ -30,15 +30,15 @@ class User(db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
-class UserReact(db.model):
-    userId = db.Column(db.Integer, db.ForeignKey('User.id'), primary_key=True)
-    postId = db.Column(db.Integer, db.ForeignKey('Post.id') , primary_key=True)
-    react = db.column(db.String(80), default = 'like'|'dislike')
+class UserReact(db.Model):
+    userId = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    postId = db.Column(db.Integer, db.ForeignKey('post.id') , primary_key=True)
+    react = db.Column(db.String(80), default = 'like' or 'dislike')
 
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    userId = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False )
+    userId = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False )
     text = db.Column(db.String(2048), nullable=False)
     reacts = db.relationship('UserReact', backref='Post', lazy=True)
 
