@@ -25,11 +25,51 @@
     <script src="server.js"></script>
 
     <script>
-      //Use the server global variable for ALL http request to your flask App
-      //Set the variable in server.js
-      console.log(server);
+      async function sendRequest(url, method, data){
+                try{
+                    //retrieve token from localStorage
+                    let token = window.localStorage.getItem('access_token');
 
-      //enter ALL javascript for you app here
+                    let options = {//options passed to fetch function
+                        method: method,
+                        headers: { 
+                        'Content-Type' : 'application/json',
+                        'Authorization' : `JWT ${token}`//send token in request
+                        }
+                    };
+
+                    if(data)//data will be given for PUT & POST requests
+                    options.body = JSON.stringify(data);//convert data to JSON string
+
+                    let response = await fetch(url, options);
+                
+                    let result = await response.json();//Get json data from response
+                    return result;//return the result
+
+                }catch(error){
+                    return error;//catch and log any errors
+                }
+            }
+      async function getListing(){
+          try{
+            let response = await fetch(`${server}/posts`);
+            let result = await response.json();
+            displayListing(result);
+          }
+          catch(e){
+            console.log(e);
+          }
+        }
+
+        function displayListing(pokeList){
+          //Renders a list of pokemon links to the page 
+          let result = document.querySelector("#listing");
+          let results = pokeList.results;
+          for(let listEl of results){
+            // let name = capitalizeFirstLetter(listEl.name)
+           result.innerHTML += `<li><a id = '${listEl.name}' class = 'collection-item' href="#" onclick = getPokemon("${listEl.name}")>${listEl.name}</a></li>`;
+          } 
+        }
 
     </script>
   
