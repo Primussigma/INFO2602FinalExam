@@ -60,22 +60,22 @@ def index():
 def client_app():
   return app.send_static_file('app.html')
 
-@app.route('/posts', method="GET")
-@jwt_required
+@app.route('/posts', methods=["GET"])
+@jwt_required()
 def send_posts():
     posts = Post.query.all()
     posts = [p.toDict() for p in posts]
     return json.dumps(posts)
 
-@app.route('/getUser', method="GET")
-@jwt_required
+@app.route('/getUser', methods=["GET"])
+@jwt_required()
 def send_user():
     u = User.query.filter_by(id=current_identity.id)
     u = u.toDict()
     return json.dumps(u)
 
-@app.route("/reactToPost", method="POST")
-@jwt_required
+@app.route("/reactToPost", methods=["POST"])
+@jwt_required()
 def react_to_post():
     data = request.get_json()
     # check for existing react
