@@ -28,6 +28,10 @@
 
     <div id="content">
         <div id="postArea">
+            <textarea rows="8" cols="125" name="postText" form="myForm">
+            <form id="myForm">
+                <input type="submit">
+            </form>
         </div>
         <div id="postList">
         </div>
@@ -92,7 +96,7 @@
             let user = await sendRequest(`${server}/getUser`,"GET");
             //let result = user.results;
             let banner =document.querySelector("#userBanner");
-            banner.innerHTML=`<a href="#!"class="brand-logo center">Hello ${user.username}</a>`;
+            banner.innerHTML=`<a href="#!"class="brand-logo center">Welcome ${user.username}</a>`;
           }
           catch(e){
             console.log(e);
@@ -124,7 +128,7 @@
         }
 
       function createPost(){
-          
+
       }
 
       async function sendReact(react, pId){
