@@ -55,8 +55,7 @@ jwt = JWT(app, authenticate, identity)
 def index():
   return render_template('index.html')
 
-@app.route('/app', methods=["GET"])
-@jwt_required
+@app.route('/app')
 def client_app():
   return app.send_static_file('app.html')
 
