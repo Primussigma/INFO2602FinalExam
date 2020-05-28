@@ -79,8 +79,8 @@
       async function getUserID(){
           try{
             let user = await sendRequest(`${server}/getUser`,"GET");
-            let result = user.results;
-            return result.id;
+            //let result = user.results;
+            return user.id;
           }
           catch(e){
             console.log(e);
@@ -90,8 +90,8 @@
           let banner =document.querySelector("#banner");
           try{
             let user = await sendRequest(`${server}/getUser`,"GET");
-            let result = user.results;
-            banner.innerHTML=`Hello ${result.username}`;
+            //let result = user.results;
+            banner.innerHTML=`Hello ${user.username}`;
           }
           catch(e){
             console.log(e);
