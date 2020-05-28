@@ -87,7 +87,7 @@ def react_to_post():
         # else make new react
         react = UserReact(userId=current_identity.id, postId=data["postId"], react=data["react"])
         db.session.add(react)
-        db.session.commit()
+    db.session.commit()
     return "react logged", 201
 
 
