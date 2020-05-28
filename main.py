@@ -57,6 +57,7 @@ def index():
   return render_template('index.html')
 
 @app.route('/app')
+@jwt_required()
 def client_app():
   return app.send_static_file('app.html')
 
