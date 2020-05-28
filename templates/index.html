@@ -83,6 +83,7 @@
                     window.localStorage.setItem('access_token', result['access_token']);//save token
                     //window.localStorage.getItem('access_token')
                     let result = await sendRequest(`${server}/app`, 'GET');
+                    window.location.href= `${server}/app`;
                     //window.location.href= `${server}/app`;//redirect the page
                 }
             }
