@@ -63,9 +63,9 @@ def client_app():
 @app.route('/posts', methods=["GET"])
 @jwt_required()
 def send_posts():
-    posts = Post.query.all()
-    posts = [p.toDict() for p in posts]
-    return json.dumps(posts)
+    queryPosts = Post.query.all()
+    queryPosts = [p.toDict() for p in queryPosts]
+    return json.dumps(queryPosts)
 
 @app.route('/getUser', methods=["GET"])
 @jwt_required()
