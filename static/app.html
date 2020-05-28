@@ -22,7 +22,7 @@
 
     <nav class="green">
       <div class="nav-wrapper">
-        <a href="#!" class="brand-logo center">Frontend App</a>
+        <a href="#!" id="userBannner" class="brand-logo center">Frontend App</a>
       </div>
     </nav>
 
@@ -86,6 +86,17 @@
             console.log(e);
           }
         }
+      async function getUserName(){
+          let banner =document.querySelector("#banner");
+          try{
+            let user = await sendRequest(`${server}/getUser`,"GET");
+            let result = user.results;
+            banner.innerHTML=`Hello ${result.username}`;
+          }
+          catch(e){
+            console.log(e);
+          }
+        }
 
       function displayPosts(posts){
           let postList = document.querySelector("#postList");
@@ -127,11 +138,13 @@
         }
       }
 
-      function deletePost(event){
+      async function deletePost(event){
 
       }
-
+      getUserName();
       getPosts();
+      
+      
     </script>
   
 
