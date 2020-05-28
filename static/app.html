@@ -30,7 +30,7 @@
         <div id="postArea">
             <textarea rows="8" cols="125" name="postText" form="myForm">
             <form id="myForm">
-                <input type="submit">
+                <input type= "submit" class="button" value="Add Post">
             </form>
         </div>
         <div id="postList">
@@ -127,9 +127,27 @@
           } 
         }
 
-      function createPost(){
+      async function submit(event){
+            event.preventDefault();//prevents page redirection
+    
+            //event target returns the element on which the event is fired upon ie event.target === myForm
 
-      }
+            //get data from form using elements property
+            let myform = event.target.elements;
+
+            let data = text: myform['postText'].value;
+
+            myForm.reset();//clears the fields of the form
+            //send data to an api endpoint expecting the data
+            let result = await sendRequest(`${server}/createPost`, 'POST', data);
+
+            if('error' in result){
+                toast("Post Addition Failed: "+result['error']);//show error message
+            }else{
+                toast("Post Addition Successful");
+                getPosts();
+            }
+        }
 
       async function sendReact(react, pId){
         let data = {
