@@ -87,10 +87,11 @@
           }
         }
       async function getUserName(){
-          let banner =document.querySelector("#userBanner");
+          
           try{
             let user = await sendRequest(`${server}/getUser`,"GET");
             //let result = user.results;
+            let banner =document.querySelector("#userBanner");
             banner.innerHTML=`<a href="#!"class="brand-logo center">Hello ${user.username}</a>`;
           }
           catch(e){
