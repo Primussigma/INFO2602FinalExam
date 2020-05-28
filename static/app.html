@@ -105,9 +105,9 @@
 
       function displayPosts(posts){
           let postList = document.querySelector("#postList");
-          let results = posts.results;
-          for(let listEl of results){
-           result.innerHTML += `<li>
+          //let results = posts.results;
+          for(let listEl of posts){
+           postList.innerHTML += `<li>
            <form id = 'post${listEl.postId}' class = 'post'>
             <div> 
                 <h2>User:${listEl.username}</h2>
@@ -118,9 +118,9 @@
                     <option value = "dislike">Dislike</option>
                 </select>`;
             if(getUserID() == listEl.userId){
-                result.innerHTML += `<input type="button" onclick="deletePost('post${listEl.postId}')" value="Delete">`;
+                postList.innerHTML += `<input type="button" onclick="deletePost('post${listEl.postId}')" value="Delete">`;
             }         
-            result.innerHTML +=
+            postList.innerHTML +=
             `</div>
            </form>
            </li>`;
