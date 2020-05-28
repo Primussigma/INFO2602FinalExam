@@ -96,8 +96,15 @@ def create_post():
     post = Post(userId=current_identity.id,text=request.data)
     db.session.add(post)
     db.session.commit()
-    return "Pot created", 201
+    return "Post created", 201
 
+@app.route("/deletePost", methods=["DELETE"])
+@jwt_required()
+def delete_my_post():
+    queryPost= Post.query.filter_by(postId=request).first()
+    db.session.delete(queryPost)
+    db.session.commit()
+    return "Post Deleted" , 204
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=8080, debug=True)

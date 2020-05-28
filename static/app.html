@@ -118,7 +118,7 @@
                     <option value = "dislike">Dislike</option>
                 </select>`;
             if(getUserID() == listEl.userId){
-                result.innerHTML += `<input type="button" onclick="deletePost()" value="Delete">`;
+                result.innerHTML += `<input type="button" onclick="deletePost('post${listEl.postId}')" value="Delete">`;
             }         
             result.innerHTML +=
             `</div>
@@ -165,8 +165,16 @@
         }
       }
 
-      async function deletePost(event){
+      async function deletePost(postID){
+        //get the post ID
+        let result = await sendRequest(`${server}/deletePost`, 'DELETE', postID.value);
 
+        if('error' in result){
+            toast("Delete Failed: "+result['error']);//show error message
+        }else{
+            toast("Deleted Successful");
+            getPosts();
+        }
       }
       getUserName();
       document.forms['myForm'].addEventListener('submit', submit);
