@@ -80,7 +80,7 @@ def react_to_post():
     data = request.get_json()
     # check for existing react
     # if react exists then edit
-    react = UserReact.query.filter_by(userId==current_identity.id, postId==data["postId"]).all()
+    react = UserReact.query.filter_by(userId=current_identity.id, postId=data["postId"]).all()
     if react != None:
         react.react= data["react"]
     else:
@@ -90,6 +90,16 @@ def react_to_post():
     db.session.commit()
     return "react logged", 201
 
+@app.route("/createPost", methods=["POST"])
+@jwt_required()
+def create_post():
+    data = request.get_json()
+    post = Post(userId=current_identity.id,text=data["text"])
+    db.session.add(post)
+    db.session.commit()
+    return "Pot created", 201
+
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=8080, debug=True)
+
