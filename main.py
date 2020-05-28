@@ -3,6 +3,7 @@ from flask_cors import CORS
 from flask_login import LoginManager, current_user, login_user, login_required
 from flask import Flask, request, render_template, redirect, flash, url_for
 from flask_jwt import JWT, jwt_required, current_identity
+from sqlalchemy import and_
 from sqlalchemy.exc import IntegrityError
 from datetime import timedelta 
 
@@ -59,6 +60,35 @@ def index():
 def client_app():
   return app.send_static_file('app.html')
 
+@app.route('/posts', method="GET")
+@jwt_required
+def send_posts():
+    posts = Post.query.all()
+    posts = [p.toDict() for p in posts]
+    return json.dumps(posts)
+
+@app.route('/getUser', method="GET")
+@jwt_required
+def send_user():
+    u = User.query.filter_by(id=current_identity.id)
+    u = u.toDict()
+    return json.dumps(u)
+
+@app.route("/reactToPost", method="POST")
+@jwt_required
+def react_to_post():
+    data = request.get_json()
+    # check for existing react
+    # if react exists then edit
+    react = UserReact.query.filter_by(userId==current_identity.id, postId==data["postId"]).all()
+    if react != None:
+        react.react= data["react"]
+    else:
+        # else make new react
+        react = UserReact(userId=current_identity.id, postId=data["postId"], react=data["react"])
+        db.session.add(react)
+        db.session.commit()
+    return "react logged", 201
 
 
 if __name__ == '__main__':

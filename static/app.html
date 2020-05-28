@@ -9,6 +9,14 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        #postList{
+
+        }
+        .post{
+
+        }
+    </style>
 </head>
 <body>
 
@@ -19,12 +27,19 @@
     </nav>
 
     <div id="content">
-        <h1>This view is rendered entierly on the client!</h1>
-        <h2>It can be statically served</h2>
+        <div id="postArea">
+        </div>
+        <div id="postList">
+        </div>
     </div>
     <script src="server.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 
     <script>
+      function toast(message){
+        M.toast({html: message});
+      }
       async function sendRequest(url, method, data){
                 try{
                     //retrieve token from localStorage
@@ -49,31 +64,76 @@
                 }catch(error){
                     return error;//catch and log any errors
                 }
-            }
-      async function getListing(){
+        }
+
+      async function getPosts(){
           try{
-            let response = await fetch(`${server}/posts`);
-            let result = await response.json();
-            displayListing(result);
+            let result = await sendRequest(`${server}/posts`,"GET");
+            displayPosts(result);
           }
           catch(e){
             console.log(e);
           }
         }
 
-        function displayListing(pokeList){
-          //Renders a list of pokemon links to the page 
-          let result = document.querySelector("#listing");
-          let results = pokeList.results;
+      async function getUserID(){
+          try{
+            let user = await sendRequest(`${server}/getUser`,"GET");
+            let result = user.results;
+            return result.id;
+          }
+          catch(e){
+            console.log(e);
+          }
+        }
+
+      function displayPosts(posts){
+          let postList = document.querySelector("#postList");
+          let results = posts.results;
           for(let listEl of results){
-            // let name = capitalizeFirstLetter(listEl.name)
-           result.innerHTML += `<li><a id = '${listEl.name}' class = 'collection-item' href="#" onclick = getPokemon("${listEl.name}")>${listEl.name}</a></li>`;
+           result.innerHTML += `<li>
+           <form id = 'post${listEl.postId}' class = 'post'>
+            <div> 
+                <h2>User:${listEl.username}</h2>
+                <p>${listEl.text}</p>
+                <p class="likes">Likes:${listEl.likes}</p><p class="dislikes"> Dislikes:${listEl.dislikes}</p>
+                <select name="react" onchange="sendReact(this, ${listEl.postId})">
+                    <option value = "like">Like</option>
+                    <option value = "dislike">Dislike</option>
+                </select>`;
+            if(getUserID() == listEl.userId){
+                result.innerHTML += `<input type="button" onclick="deletePost()" value="Delete">`;
+            }         
+            result.innerHTML +=
+            `</div>
+           </form>
+           </li>`;
           } 
         }
 
+      function sendReact(react, pId){
+        let data = {
+            react: react.value,
+            postId: pId,
+        }
+        //send data to an api endpoint expecting the data
+        let result = await sendRequest(`${server}/reactToPost`, 'POST', data);
+
+        if('error' in result){
+            toast("React Failed: "+result['error']);//show error message
+        }else{
+            toast("Reacted Successful");
+            getPosts();
+        }
+      }
+
+      function deletePost(event){
+
+      }
+
+      getPosts();
     </script>
   
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

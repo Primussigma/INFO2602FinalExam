@@ -59,6 +59,7 @@ class Post(db.Model):
     def toDict(self):
         return {
         "postId": self.id,
+        "userId": self.userId,
         "username": User.query.filter_by(id = self.userId).username,
         "text": self.text,
         "likes": getTotalLikes(),
