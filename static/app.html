@@ -21,8 +21,8 @@
 <body>
 
     <nav class="green">
-      <div class="nav-wrapper">
-        <a href="#!" id="userBannner" class="brand-logo center">Frontend App</a>
+      <div id="userBannner" class="nav-wrapper">
+        <a href="#!"class="brand-logo center">Frontend App</a>
       </div>
     </nav>
 
@@ -91,7 +91,7 @@
           try{
             let user = await sendRequest(`${server}/getUser`,"GET");
             //let result = user.results;
-            banner.innerHTML=`Hello ${user.username}`;
+            banner.innerHTML=`<a href="#!"class="brand-logo center">Hello ${user.username}</a>`;
           }
           catch(e){
             console.log(e);
