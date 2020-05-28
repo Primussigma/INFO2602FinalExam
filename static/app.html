@@ -87,7 +87,7 @@
           }
         }
       async function getUserName(){
-          let banner =document.querySelector("#banner");
+          let banner =document.querySelector("#userBanner");
           try{
             let user = await sendRequest(`${server}/getUser`,"GET");
             //let result = user.results;
