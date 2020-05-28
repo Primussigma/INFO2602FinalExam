@@ -7,8 +7,6 @@ from sqlalchemy.exc import IntegrityError
 from datetime import timedelta 
 
 from models import db, User, UserReact, Post #add application models
-import initDB
-initDB()
 
 ''' Begin boilerplate code '''
 
