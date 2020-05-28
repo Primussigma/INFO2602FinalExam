@@ -70,7 +70,7 @@ def send_posts():
 @app.route('/getUser', methods=["GET"])
 @jwt_required()
 def send_user():
-    u = User.query.filter_by(id=current_identity.id)
+    u = User.query.filter_by(id=current_identity.id).all()
     u = u.toDict()
     return json.dumps(u)
 
