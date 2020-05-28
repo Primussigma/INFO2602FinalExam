@@ -135,7 +135,7 @@
             //get data from form using elements property
             let myform = event.target.elements;
 
-            let data = {text: myform['postText'].value}
+            let data = myform['postText'].value
 
             myForm.reset();//clears the fields of the form
             //send data to an api endpoint expecting the data
@@ -169,6 +169,7 @@
 
       }
       getUserName();
+      document.forms['myForm'].addEventListener('submit', submit);
       getPosts();
       
       

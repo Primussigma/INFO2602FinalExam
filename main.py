@@ -93,8 +93,7 @@ def react_to_post():
 @app.route("/createPost", methods=["POST"])
 @jwt_required()
 def create_post():
-    data = request.get_json()
-    post = Post(userId=current_identity.id,text=data["text"])
+    post = Post(userId=current_identity.id,text=request.data)
     db.session.add(post)
     db.session.commit()
     return "Pot created", 201
